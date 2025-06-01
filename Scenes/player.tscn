@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b401p8rcyciem" path="res://Assets/Sprites/PlayerSprite.png" id="2_cvnsp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
-size = Vector2(28, 22)
+size = Vector2(15, 15)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cvnsp"]
 load_path = "res://.godot/imported/PlayerSprite.png-d737c826d67a132e1f882c16f66bb72c.ctex"
@@ -65,14 +65,16 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 3
 script = ExtResource("1_4flbx")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 5)
+position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_sh265")
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(2, 2)
+position = Vector2(0, -12)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
 animation = &"moving"
 autoplay = "idle"

@@ -6,11 +6,7 @@ extends CharacterBody2D
 @export var gravity : float = 980
 @export var air_resistance : float = 0.9
 
-@export_category("Tiles Physics")
-@export var normal_friction : float = 20.0
-@export var ice_friction : float = 5.0
-
-var friction : float = normal_friction
+var friction : float = 0
 
 @onready var player_sprite : AnimatedSprite2D = $PlayerSprite
 @onready var stage : TileMapLayer = %Stage
@@ -24,9 +20,12 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
-	# Check if player is on the floor and hits the jump button.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = -jump_height
+	if is_on_floor():
+		# Check if player is on the floor and hits the jump button.
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = -jump_height
+		# Check the friction value of the floor.
+		friction = stage.get_friction(Vector2(position.x, position.y + 1))
 	
 	# Read left-right directional inputs.
 	var input_dir : float = Input.get_axis("move_left", "move_right")
@@ -49,12 +48,4 @@ func _physics_process(delta: float) -> void:
 		velocity.x = lerp(velocity.x, input_dir * speed, delta * air_resistance)
 	
 	move_and_slide()
-
-func _process(delta: float) -> void:
-	
-	var current_surface : String = stage.get_tile_surface_type(Vector2(position.x + 8, position.y + 17))
-	if current_surface == "ice":
-		friction = ice_friction
-	else:
-		friction = normal_friction
 	
